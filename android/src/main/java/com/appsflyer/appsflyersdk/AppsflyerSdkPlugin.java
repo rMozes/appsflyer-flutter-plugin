@@ -604,9 +604,14 @@ public class AppsflyerSdkPlugin implements MethodCallHandler, FlutterPlugin, Act
     private DeepLinkListener registerOnDeeplinkingListener() {
         return new DeepLinkListener() {
             @Override
-            public void onDeepLinking(DeepLinkResult deepLinkResult) {
+            public void onDeepLinking(final DeepLinkResult deepLinkResult) {
                 if(udlCallback){
-                    runOnUIThread(deepLinkResult, AppsFlyerConstants.AF_UDL_CALLBACK, AF_SUCCESS);
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            runOnUIThread(deepLinkResult, AppsFlyerConstants.AF_UDL_CALLBACK, AF_SUCCESS);
+                        }
+                    }, 1000);
                 }else{
                     try {
                         JSONObject obj = new JSONObject();
