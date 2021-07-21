@@ -350,7 +350,7 @@ public class AppsflyerSdkPlugin implements MethodCallHandler, FlutterPlugin, Act
     }
 
     private void runOnUIThread(final Object data, final String callbackName, final String status) {
-        uiThreadHandler.postDelayed(
+        uiThreadHandler.post(
                 new Runnable() {
                     @Override
                     public void run() {
@@ -365,7 +365,7 @@ public class AppsflyerSdkPlugin implements MethodCallHandler, FlutterPlugin, Act
                         }
                         mCallbackChannel.invokeMethod("callListener", args.toString());
                     }
-                }, 1000
+                }
         );
     }
 
@@ -730,11 +730,13 @@ public class AppsflyerSdkPlugin implements MethodCallHandler, FlutterPlugin, Act
 
     @Override
     public void onAttachedToEngine(FlutterPluginBinding binding) {
+        Log.d("TestLogs", "onAttachedToEngine");
         onAttachedToEngine(binding.getApplicationContext(), binding.getBinaryMessenger());
     }
 
     @Override
     public void onDetachedFromEngine(FlutterPluginBinding binding) {
+        Log.d("TestLogs", "onDetachedFromEngine");
         mMethodChannel.setMethodCallHandler(null);
         mMethodChannel = null;
         mEventChannel.setStreamHandler(null);
@@ -743,6 +745,7 @@ public class AppsflyerSdkPlugin implements MethodCallHandler, FlutterPlugin, Act
 
     @Override
     public void onAttachedToActivity(ActivityPluginBinding binding) {
+        Log.d("TestLogs", "onAttachedToActivity");
         activity = binding.getActivity();
         mIntent = binding.getActivity().getIntent();
         mApplication = binding.getActivity().getApplication();
@@ -760,6 +763,7 @@ public class AppsflyerSdkPlugin implements MethodCallHandler, FlutterPlugin, Act
 
     @Override
     public void onDetachedFromActivity() {
+        Log.d("TestLogs", "onDetachedFromActivity");
         activity = null;
     }
 }
