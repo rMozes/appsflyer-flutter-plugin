@@ -350,7 +350,7 @@ public class AppsflyerSdkPlugin implements MethodCallHandler, FlutterPlugin, Act
     }
 
     private void runOnUIThread(final Object data, final String callbackName, final String status) {
-        uiThreadHandler.post(
+        uiThreadHandler.postDelayed(
                 new Runnable() {
                     @Override
                     public void run() {
@@ -365,7 +365,7 @@ public class AppsflyerSdkPlugin implements MethodCallHandler, FlutterPlugin, Act
                         }
                         mCallbackChannel.invokeMethod("callListener", args.toString());
                     }
-                }
+                }, 1000
         );
     }
 
@@ -606,12 +606,7 @@ public class AppsflyerSdkPlugin implements MethodCallHandler, FlutterPlugin, Act
             @Override
             public void onDeepLinking(final DeepLinkResult deepLinkResult) {
                 if(udlCallback){
-                    new Handler().postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            runOnUIThread(deepLinkResult, AppsFlyerConstants.AF_UDL_CALLBACK, AF_SUCCESS);
-                        }
-                    }, 1000);
+                    runOnUIThread(deepLinkResult, AppsFlyerConstants.AF_UDL_CALLBACK, AF_SUCCESS);
                 }else{
                     try {
                         JSONObject obj = new JSONObject();
