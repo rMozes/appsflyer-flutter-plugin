@@ -26,6 +26,7 @@ Future<void> _methodCallHandler(MethodCall call) async {
               "status": callMap['status'],
               "payload": decodedData
             };
+            print('_methodCallHandler $fullResponse');
             _callbacksById[callMap["id"]](fullResponse);
             break;
           default:
